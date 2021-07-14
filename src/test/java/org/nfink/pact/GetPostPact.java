@@ -22,6 +22,8 @@ public class GetPostPact {
     public PactProviderRule provider = new PactProviderRule("jsonplaceholder", "localhost", 0, this);
 
     private static Post post = new Post(2, "test title", "test body", 3);
+    private static Integer noDataId = 999;
+    private static String invalidId = "abcd";
 
     private PostsClient postsClient;
 
@@ -43,6 +45,30 @@ public class GetPostPact {
                 .toPact();
     }
 
+    @Pact(consumer = "Olo")
+    public RequestResponsePact noData(PactDslWithProvider builder) {
+        return builder
+                .given("default")
+                .uponReceiving(String.format("A request for post with id %s that does not exist", noDataId))
+                .path(PostsClient.getPath() + "/" + noDataId)
+                .method("GET")
+                .willRespondWith()
+                .status(404)
+                .toPact();
+    }
+
+    @Pact(consumer = "Olo")
+    public RequestResponsePact invalidId(PactDslWithProvider builder) {
+        return builder
+                .given("default")
+                .uponReceiving(String.format("A request for post with invalid id %s", invalidId))
+                .path(PostsClient.getPath() + "/" + invalidId)
+                .method("GET")
+                .willRespondWith()
+                .status(404)
+                .toPact();
+    }
+
     @Test
     @PactVerification(fragment = "valid")
     public void validId_ReturnsPost() throws IOException {
@@ -51,5 +77,23 @@ public class GetPostPact {
         .then()
                 .statusCode(200)
                 .body("$", equalTo(post.toJsonObject()));
+    }
+
+    @Test
+    @PactVerification(fragment = "noData")
+    public void noData_Returns404() {
+        when()
+                .get(postsClient.getGetUrl(noDataId.toString()))
+        .then()
+                .statusCode(404);
+    }
+
+    @Test
+    @PactVerification(fragment = "invalidId")
+    public void invalidId_Returns404() {
+        when()
+                .get(postsClient.getGetUrl(invalidId))
+        .then()
+                .statusCode(404);
     }
 }
