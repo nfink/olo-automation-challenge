@@ -1,23 +1,21 @@
 package org.nfink.pact;
 
-import au.com.dius.pact.consumer.dsl.DslPart;
-import au.com.dius.pact.consumer.dsl.PactDslJsonArray;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit.PactProviderRule;
 import au.com.dius.pact.consumer.junit.PactVerification;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import io.restassured.common.mapper.TypeRef;
 import org.junit.*;
 import org.nfink.model.Post;
+import org.nfink.pact.util.PostUtil;
 import org.nfink.service.PostsClient;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
 
-public class GetPosts {
+public class GetPostsPact {
     @Rule
     public PactProviderRule provider = new PactProviderRule("jsonplaceholder", "localhost", 0, this);
 
@@ -39,30 +37,17 @@ public class GetPosts {
                     .method("GET")
                 .willRespondWith()
                     .status(200)
-                    .body(buildBody(post))
+                    .body(PostUtil.buildArrayBody(post))
                 .toPact();
     }
 
     @Test
     @PactVerification(fragment = "happyPath")
-    public void returnsListOfPosts() {
-        List<Post> response = when()
+    public void returnsListOfPosts() throws IOException {
+        when()
                 .get(postsClient.getGetUrl())
         .then()
                 .statusCode(200)
-        .extract()
-                .as(new TypeRef<List<Post>>() {});
-
-        List<Post> expected = Arrays.asList(post);
-        Assert.assertEquals(expected, response);
-    }
-
-    private static DslPart buildBody(Post post) {
-        return PactDslJsonArray.arrayMinLike(1)
-                .integerType("id", post.getId())
-                .stringType("title", post.getTitle())
-                .stringType("body", post.getBody())
-                .integerType("userId", post.getUserId())
-                .closeObject();
+                .body(String.format("find { it.id == %s }", post.getId()), equalTo(post.toJsonObject()));
     }
 }

@@ -1,10 +1,14 @@
 package org.nfink.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.io.IOException;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +23,10 @@ public class Post {
     private String body;
 
     private Integer userId;
+
+    public Object toJsonObject() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(this);
+        return mapper.readValue(json, Object.class);
+    }
 }
