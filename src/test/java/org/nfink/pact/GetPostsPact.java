@@ -9,11 +9,9 @@ import org.junit.*;
 import org.nfink.model.Post;
 import org.nfink.pact.util.PostUtil;
 import org.nfink.service.PostsClient;
+import org.nfink.tests.GetPosts;
 
 import java.io.IOException;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.equalTo;
 
 public class GetPostsPact {
     @Rule
@@ -41,13 +39,28 @@ public class GetPostsPact {
                 .toPact();
     }
 
+    @Pact(consumer = "Olo")
+    public RequestResponsePact returnsExistingPost(PactDslWithProvider builder) {
+        return builder
+                .given(String.format("There is a post with id %s", post.getId()))
+                .uponReceiving("A request for all posts")
+                    .path(PostsClient.getPath())
+                    .method("GET")
+                .willRespondWith()
+                    .status(200)
+                    .body(PostUtil.buildArrayBody(post))
+                .toPact();
+    }
+
     @Test
     @PactVerification(fragment = "happyPath")
-    public void returnsListOfPosts() throws IOException {
-        when()
-                .get(postsClient.getGetUrl())
-        .then()
-                .statusCode(200)
-                .body(String.format("find { it.id == %s }", post.getId()), equalTo(post.toJsonObject()));
+    public void returnsListOfPosts() {
+        GetPosts.returnsListOfPosts(postsClient);
+    }
+
+    @Test
+    @PactVerification(fragment = "returnsExistingPost")
+    public void returnsExistingPost() throws IOException {
+        GetPosts.returnsExistingPost(postsClient, post);
     }
 }

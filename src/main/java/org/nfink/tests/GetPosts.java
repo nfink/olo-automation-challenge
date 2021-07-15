@@ -5,6 +5,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.nfink.model.Post;
 import org.nfink.rule.PostsClientRule;
+import org.nfink.service.PostsClient;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,12 +20,7 @@ public class GetPosts {
 
     @Test
     public void returnsListOfPosts() {
-        when()
-                .get(postsClientRule.getPostsClient().getGetUrl())
-        .then()
-                .statusCode(200)
-        .extract()
-                .as(new TypeRef<List<Post>>() {});
+        returnsListOfPosts(postsClientRule.getPostsClient());
     }
 
     @Test
@@ -35,10 +31,23 @@ public class GetPosts {
 
         Post post = new Post(100, "at nam consequatur ea labore ea harum", "cupiditate quo est a modi nesciunt soluta\nipsa voluptas error itaque dicta in\nautem qui minus magnam et distinctio eum\naccusamus ratione error aut", 10);
 
+        returnsExistingPost(postsClientRule.getPostsClient(), post);
+    }
+
+    public static void returnsListOfPosts(PostsClient postsClient) {
         when()
-            .get(postsClientRule.getPostsClient().getGetUrl())
+                .get(postsClient.getGetUrl())
         .then()
-            .statusCode(200)
-            .body(String.format("find { it.id == %s }", post.getId()), equalTo(post.toJsonObject()));
+                .statusCode(200)
+        .extract()
+                .as(new TypeRef<List<Post>>() {});
+    }
+
+    public static void returnsExistingPost(PostsClient postsClient, Post post) throws IOException {
+        when()
+                .get(postsClient.getGetUrl())
+        .then()
+                .statusCode(200)
+                .body(String.format("find { it.id == %s }", post.getId()), equalTo(post.toJsonObject()));
     }
 }
