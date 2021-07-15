@@ -15,16 +15,13 @@ import org.nfink.tests.GetPost;
 
 import java.io.IOException;
 
-import static io.restassured.RestAssured.when;
-import static org.hamcrest.Matchers.equalTo;
-
 public class GetPostPact {
     @Rule
     public PactProviderRule provider = new PactProviderRule("jsonplaceholder", "localhost", 0, this);
 
-    private static Post post = new Post(2, "test title", "test body", 3);
-    private static Integer noDataId = 999;
-    private static String invalidId = "abcd";
+    private static final Post post = new Post(2, "test title", "test body", 3);
+    private static final Integer noDataId = 999;
+    private static final String invalidId = "abcd";
 
     private PostsClient postsClient;
 

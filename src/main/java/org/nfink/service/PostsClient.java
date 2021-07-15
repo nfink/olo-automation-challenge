@@ -1,7 +1,5 @@
 package org.nfink.service;
 
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSenderOptions;
 import org.nfink.model.Post;
 
 import static io.restassured.RestAssured.*;

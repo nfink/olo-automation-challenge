@@ -22,9 +22,9 @@ public class CreatePostPact {
     @Rule
     public PactProviderRule provider = new PactProviderRule("jsonplaceholder", "localhost", 0, this);
 
-    private static Post post = new Post(null, "test title", "test body", 4);
-    private static Post createdPost = new Post(101, post.getTitle(), post.getBody(), post.getUserId());
-    private static Post missingUserId = new Post(null, "test title", "test body", null);
+    private static final Post post = new Post(null, "test title", "test body", 4);
+    private static final Post createdPost = new Post(101, post.getTitle(), post.getBody(), post.getUserId());
+    private static final Post missingUserId = new Post(null, "test title", "test body", null);
 
     private PostsClient postsClient;
 

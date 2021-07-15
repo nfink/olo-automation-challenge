@@ -1,12 +1,9 @@
 package org.nfink.tests;
 
-import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.nfink.model.Post;
 import org.nfink.rule.PostsClientRule;
-
-import java.io.IOException;
 
 public class CreatePostTests {
     @ClassRule

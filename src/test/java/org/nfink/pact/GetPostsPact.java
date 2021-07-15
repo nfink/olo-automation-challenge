@@ -17,7 +17,7 @@ public class GetPostsPact {
     @Rule
     public PactProviderRule provider = new PactProviderRule("jsonplaceholder", "localhost", 0, this);
 
-    private static Post post = new Post(1, "test title", "test body", 2);
+    private static final Post post = new Post(1, "test title", "test body", 2);
 
     private PostsClient postsClient;
 
