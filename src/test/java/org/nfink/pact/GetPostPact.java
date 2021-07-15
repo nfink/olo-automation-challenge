@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.nfink.model.Post;
 import org.nfink.pact.util.PostUtil;
 import org.nfink.service.PostsClient;
+import org.nfink.tests.GetPost;
 
 import java.io.IOException;
 
@@ -72,28 +73,18 @@ public class GetPostPact {
     @Test
     @PactVerification(fragment = "valid")
     public void validId_ReturnsPost() throws IOException {
-        when()
-                .get(postsClient.getGetUrl(post.getId().toString()))
-        .then()
-                .statusCode(200)
-                .body("$", equalTo(post.toJsonObject()));
+        GetPost.validId_ReturnsPost(postsClient, post);
     }
 
     @Test
     @PactVerification(fragment = "noData")
     public void noData_Returns404() {
-        when()
-                .get(postsClient.getGetUrl(noDataId.toString()))
-        .then()
-                .statusCode(404);
+        GetPost.noData_Returns404(postsClient, noDataId.toString());
     }
 
     @Test
     @PactVerification(fragment = "invalidId")
     public void invalidId_Returns404() {
-        when()
-                .get(postsClient.getGetUrl(invalidId))
-        .then()
-                .statusCode(404);
+        GetPost.invalidId_Returns404(postsClient, invalidId);
     }
 }
