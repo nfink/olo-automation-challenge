@@ -9,7 +9,7 @@ import org.junit.*;
 import org.nfink.model.Post;
 import org.nfink.pact.util.PostUtil;
 import org.nfink.service.PostsClient;
-import org.nfink.tests.GetPosts;
+import org.nfink.tests.shared.GetPosts;
 
 import java.io.IOException;
 

@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.nfink.model.Post;
 import org.nfink.service.PostsClient;
-import org.nfink.tests.DeletePost;
+import org.nfink.tests.shared.DeletePost;
 
 public class DeletePostPact {
     @Rule

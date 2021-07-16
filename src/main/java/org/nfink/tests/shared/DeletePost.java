@@ -1,4 +1,4 @@
-package org.nfink.tests;
+package org.nfink.tests.shared;
 
 import org.nfink.service.PostsClient;
 

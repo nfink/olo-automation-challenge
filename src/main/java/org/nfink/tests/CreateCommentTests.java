@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.nfink.model.Comment;
 import org.nfink.model.Post;
 import org.nfink.rule.CommentsClientRule;
+import org.nfink.tests.shared.CreateComment;
 
 public class CreateCommentTests {
     @ClassRule

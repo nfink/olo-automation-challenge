@@ -3,12 +3,11 @@ package org.nfink.tests;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.nfink.model.Comment;
-import org.nfink.model.Post;
 import org.nfink.rule.CommentsClientRule;
 import org.nfink.rule.PostsClientRule;
+import org.nfink.tests.shared.GetComments;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public class GetCommentsTests {
     @ClassRule

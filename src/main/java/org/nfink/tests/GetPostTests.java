@@ -4,9 +4,9 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.nfink.model.Post;
 import org.nfink.rule.PostsClientRule;
+import org.nfink.tests.shared.GetPost;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public class GetPostTests {
     @ClassRule

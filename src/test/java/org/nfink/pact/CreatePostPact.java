@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.nfink.model.Post;
 import org.nfink.pact.util.PostUtil;
 import org.nfink.service.PostsClient;
-import org.nfink.tests.CreatePost;
+import org.nfink.tests.shared.CreatePost;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package org.nfink.tests;
+package org.nfink.tests.shared;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;

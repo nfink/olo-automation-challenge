@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.nfink.model.Comment;
 import org.nfink.pact.util.CommentUtil;
 import org.nfink.service.CommentsClient;
-import org.nfink.tests.CreateComment;
+import org.nfink.tests.shared.CreateComment;
 
 public class CreateCommentPact {
     @Rule
