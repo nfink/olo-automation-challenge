@@ -1,11 +1,16 @@
 package org.nfink.service;
 
+import io.restassured.http.ContentType;
+import org.nfink.model.Comment;
+
+import static io.restassured.RestAssured.given;
+
 public class CommentsClient {
     private static final String commentsPath = "/comments";
 
     private static final String postCommentsPath = "/posts/%s/comments";
 
-    private String baseUrl;
+    private final String baseUrl;
 
     public CommentsClient(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -41,5 +46,17 @@ public class CommentsClient {
 
     public String getPostUrl(String postId) {
         return baseUrl + getPostPath(postId);
+    }
+
+    public Comment createComment(Comment comment) {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(comment)
+        .when()
+                .post(getPostUrl(comment.getPostId().toString()))
+        .then()
+                .statusCode(201)
+        .extract()
+                .as(Comment.class);
     }
 }

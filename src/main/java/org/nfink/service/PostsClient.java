@@ -1,5 +1,6 @@
 package org.nfink.service;
 
+import io.restassured.http.ContentType;
 import org.nfink.model.Post;
 
 import static io.restassured.RestAssured.*;
@@ -7,7 +8,7 @@ import static io.restassured.RestAssured.*;
 public class PostsClient {
     private static final String path = "/posts";
 
-    private String baseUrl;
+    private final String baseUrl;
 
     public PostsClient(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -55,6 +56,7 @@ public class PostsClient {
 
     public Post createPost(Post post) {
         return given()
+                    .contentType(ContentType.JSON)
                     .body(post)
                 .when()
                     .post(getPostUrl())
@@ -66,6 +68,7 @@ public class PostsClient {
 
     public Post updatePost(Post post) {
         return given()
+                    .contentType(ContentType.JSON)
                     .body(post)
                 .when()
                     .put(getPutUrl(post.getId().toString()))
