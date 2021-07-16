@@ -17,24 +17,40 @@ public class PostsClient {
         return path;
     }
 
+    public static String getGetPath() {
+        return path;
+    }
+
+    public static String getPostPath() {
+        return path;
+    }
+
+    public static String getPutPath(String id) {
+        return path + "/" + id;
+    }
+
+    public static String getDeletePath(String id) {
+        return path + "/" + id;
+    }
+
     public String getGetUrl() {
-        return this.baseUrl + path;
+        return this.baseUrl + getGetPath();
     }
 
     public String getGetUrl(String id) {
-        return this.baseUrl + path + "/" + id;
+        return this.baseUrl + getGetPath() + "/" + id;
     }
 
     public String getPostUrl() {
-        return this.baseUrl + path;
+        return this.baseUrl + getPostPath();
     }
 
     public String getPutUrl(String id) {
-        return this.baseUrl + path + "/" + id;
+        return this.baseUrl + getPutPath(id);
     }
 
     public String getDeleteUrl(String id) {
-        return this.baseUrl + path + "/" + id;
+        return this.baseUrl + getDeletePath(id);
     }
 
     public Post createPost(Post post) {
@@ -60,8 +76,6 @@ public class PostsClient {
     }
 
     public void deletePost(Post post) {
-        delete(getDeleteUrl(post.getId().toString()))
-                .then()
-                    .statusCode(200);
+        delete(getDeleteUrl(post.getId().toString()));
     }
 }
